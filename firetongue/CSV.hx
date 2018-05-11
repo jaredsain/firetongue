@@ -39,7 +39,7 @@ class CSV
 	 * @param	delimeter string that separates cells
 	 */
 	
-	public function new(input:String, delimeter:String=',', quoted:Bool=true) 
+	public function new(input:String, delimeter:String=',', quoted:Bool=false) 
 	{
 		_delimeter = delimeter;
 		_quoted = quoted;
@@ -144,7 +144,7 @@ class CSV
 		for (i in 0...cells.length)
 		{
 			var cell:String = "";
-			if (_quoted)
+			if (_quoted || cells[i].indexOf(",") != -1)
 			{
 				cell = cells[i].substr(1, cells[i].length - 2);
 			}
