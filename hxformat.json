@@ -1,0 +1,32 @@
+{
+  "lineEnds": {
+    "leftCurly": "both",
+    "rightCurly": "both",
+    "objectLiteralCurly": {
+      "leftCurly": "after"
+    },
+    "emptyCurly": "break"
+  },
+  "sameLine": {
+    "ifElse": "next",
+    "doWhile": "next",
+    "tryBody": "next",
+    "tryCatch": "next"
+  },
+  "emptyLines": {
+    "importAndUsing": {
+      "betweenImportsLevel": "firstLevelPackage",
+      "betweenImports": 1,
+      "beforeUsing": 1
+    },
+    "maxAnywhereInFile": 1
+  },
+  "whitespace": {
+    "colonPolicy": "none",
+    "caseColonPolicy": "onlyAfter",
+    "objectFieldColonPolicy": "around",
+    "typeHintColonPolicy": "around",
+    "typeCheckColonPolicy": "around",
+    "ternaryPolicy": "around"
+  }
+}

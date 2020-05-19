@@ -25,7 +25,11 @@ package firetongue;
 
 import firetongue.FireTongue.Case;
 import firetongue.FireTongue.LoadTask;
+#if haxe4
+import haxe.xml.Access;
+#else
 import haxe.xml.Fast;
+#end
 
 #if (sys)
 	import sys.FileSystem;
@@ -269,7 +273,7 @@ class FireTongue
 		var replace:String = "";
 		try
 		{
-			var xml:Fast = indexFont.get(str);
+			var xml:#if haxe4 Access #else Fast #end = indexFont.get(str);
 			if (xml != null && xml.hasNode.font)
 			{
 				replace = xml.node.font.att.replace;
@@ -291,7 +295,7 @@ class FireTongue
 		var replace:Int = size;
 		try
 		{
-			var xml:Fast = indexFont.get(str);
+			var xml:#if haxe4 Access #else Fast #end = indexFont.get(str);
 			if (xml != null && xml.hasNode.font && xml.node.font.hasNode.size)
 			{
 				for (sizeNode in xml.node.font.nodes.size)
@@ -339,7 +343,7 @@ class FireTongue
 	
 	public function getIndexNode(targetLocale:String = ""):Xml
 	{
-		var node:Fast = indexLocales.get(targetLocale);
+		var node:#if haxe4 Access #else Fast #end = indexLocales.get(targetLocale);
 		return Xml.parse(node.x.toString());
 	}
 	
@@ -352,7 +356,7 @@ class FireTongue
 	 */
 	public function getIndexAttribute(targetLocale:String, attribute:String, ?child:String=""):String
 	{
-		var node:Fast = indexLocales.get(targetLocale);
+		var node:#if haxe4 Access #else Fast #end = indexLocales.get(targetLocale);
 		
 		if (child != null && node.hasNode.resolve(child))
 		{
@@ -384,10 +388,10 @@ class FireTongue
 		}
 		
 		//get the locale entry for the target locale from the index
-		var lindex:Fast = indexLocales.get(targetLocale);
+		var lindex:#if haxe4 Access #else Fast #end = indexLocales.get(targetLocale);
 		
-		var currLangNode:Fast = null;
-		var nativeNode:Fast = null;
+		var currLangNode:#if haxe4 Access #else Fast #end = null;
+		var nativeNode:#if haxe4 Access #else Fast #end = null;
 		
 		if (lindex.hasNode.label)
 		{
@@ -535,7 +539,7 @@ class FireTongue
 	private var indexData:Map < String, Map < String, String >> ;
 	
 	//All of the locale entries
-	private var indexLocales:Map<String,Fast>;
+	private var indexLocales:Map<String,#if haxe4 Access #else Fast #end>;
 	
 	//All of the text notations
 	private var indexNotes:Map<String,String>;
@@ -547,11 +551,11 @@ class FireTongue
 	private var indexImages:Map<String,String>;
 	
 	//Font replacement rules
-	private var indexFont:Map<String,Fast>;
+	private var indexFont:Map<String,#if haxe4 Access #else Fast #end>;
 	
 	private var callbackFinished:Void->Void;
 	
-	private var listFiles:Array<Fast>;
+	private var listFiles:Array<#if haxe4 Access #else Fast #end>;
 	private var filesLoaded:Int = 0;
 	
 	private var checkMissing:Bool = false;
@@ -647,9 +651,9 @@ class FireTongue
 	 * @return
 	 */
 	
-	private inline function copyFast(fast:Fast):Fast
+	private inline function copyFast(fast:#if haxe4 Access #else Fast #end):#if haxe4 Access #else Fast #end
 	{
-		return new Fast(Xml.parse(fast.x.toString()));
+		return new #if haxe4 Access #else Fast #end(Xml.parse(fast.x.toString()));
 	}
 	
 	private function doTasks(tasks:Array<LoadTask>):Void
@@ -739,7 +743,7 @@ class FireTongue
 	 * @return
 	 */
 	
-	private function loadFile(fileData:Fast, checkVsDefault:Bool = false):String
+	private function loadFile(fileData:#if haxe4 Access #else Fast #end, checkVsDefault:Bool = false):String
 	{
 		var fileName:String = fileData.node.file.att.value;
 		var fileType:String = fileName.substr(fileName.length - 3, 3);
@@ -788,7 +792,7 @@ class FireTongue
 					var raw_data = loadText(loc + "/" + fileName);
 					if (raw_data != "" && raw_data != null)
 					{
-						var xml:Fast = new Fast(Xml.parse(raw_data));
+						var xml:#if haxe4 Access #else Fast #end = new #if haxe4 Access #else Fast #end(Xml.parse(raw_data));
 						processXML(xml, fileID);
 					}
 					else if (checkMissing)
@@ -835,14 +839,14 @@ class FireTongue
 	private function loadIndex():Void
 	{
 		var index:String = loadText("index.xml");
-		var xml:Fast = null;
+		var xml:#if haxe4 Access #else Fast #end = null;
 		
-		listFiles = new Array<Fast>();
+		listFiles = new Array<#if haxe4 Access #else Fast #end>();
 		
 		if (index == "" || index == null) {
 			throw ("Couldn't load index.xml!");
 		}else {
-			xml = new Fast(Xml.parse(index));
+			xml = new #if haxe4 Access #else Fast #end(Xml.parse(index));
 			
 			//Create a list of file metadata from the list in the index
 			if (xml.hasNode.data && xml.node.data.hasNode.file)
@@ -856,7 +860,7 @@ class FireTongue
 		
 		if (indexLocales == null)
 		{
-			indexLocales = new Map<String,Fast>();
+			indexLocales = new Map<String,#if haxe4 Access #else Fast #end>();
 		}
 		if (indexNotes == null)
 		{
@@ -1180,7 +1184,7 @@ class FireTongue
 		csv = null;
 	}
 	
-	private function processFonts(xml:Fast):Void
+	private function processFonts(xml:#if haxe4 Access #else Fast #end):Void
 	{
 		if (xml != null && xml.hasNode.data && xml.node.data.hasNode.font)
 		{
@@ -1215,7 +1219,7 @@ class FireTongue
 		}
 	}
 	
-	private function processXML(xml:Fast, id:String):Void
+	private function processXML(xml:#if haxe4 Access #else Fast #end, id:String):Void
 	{
 		//what this does depends on the id
 		switch(id) {
@@ -1287,7 +1291,7 @@ class FireTongue
 		
 		//we need new ones of these no matter what:
 		indexData = new Map<String,Map<String,String>>();
-		indexFont = new Map<String,Fast>();
+		indexFont = new Map<String,#if haxe4 Access #else Fast #end>();
 		
 		loadRootDirectory();		//make sure we can find our root directory
 		
@@ -1464,4 +1468,4 @@ abstract Case(Int) from Int to Int
 	var Unchanged = 0;
 }
 
-typedef LoadTask = {fileNode:Fast,check:Bool}
+typedef LoadTask = {fileNode:#if haxe4 Access #else Fast #end,check:Bool}
